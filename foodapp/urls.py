@@ -14,6 +14,8 @@ urlpatterns = [
 
     # Orders app
     path('orders/', include('orders.urls')),
+
+    path('users/', include('users.urls')),
 ]
 
 # MEDIA settings

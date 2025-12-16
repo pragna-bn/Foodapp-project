@@ -84,3 +84,8 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Redirects for login/logout
+LOGIN_URL = '/users/login/'          # Where @login_required redirects if not logged in
+LOGIN_REDIRECT_URL = '/'             # Where user goes after login
+LOGOUT_REDIRECT_URL = '/'            # Where user goes after logout

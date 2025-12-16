@@ -6,11 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}CarveCloud{% endblock %}</title>
 
-    <!-- Link CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
     <style>
-        /* Full-page background image */
         body {
             background-image: url("{% static 'images/hero.jpg' %}");
             background-size: cover;
@@ -23,7 +21,6 @@
             color: #fff;
         }
 
-        /* Header / Navbar */
         header {
             display: flex;
             justify-content: space-between;
@@ -46,14 +43,20 @@
             text-decoration: none;
         }
 
-        nav a {
+        nav a,
+        nav button {
             margin-left: 25px;
             color: #fff;
-            text-decoration: none;
+            background: none;
+            border: none;
             font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1em;
         }
 
-        nav a:hover {
+        nav a:hover,
+        nav button:hover {
             color: #ff5722;
         }
 
@@ -69,7 +72,6 @@
             margin-top: 40px;
         }
 
-        /* Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -78,13 +80,8 @@
             border-radius: 10px;
         }
 
-        /* ==================================================
-           FORCE STYLE FOR ALL ADD TO CART LINKS (FINAL FIX)
-         
-           ================================================== */
         .add-to-cart-btn,
         a.add-to-cart,
-        a[href*=".add-to-cart-btn"],
         a[href*="add_to_cart"] {
             display: inline-block;
             margin-top: 10px;
@@ -97,10 +94,9 @@
             border-radius: 30px;
             transition: all 0.3s ease;
         }
-        
+
         .add-to-cart-btn:hover,
         a.add-to-cart:hover,
-        a[href*="add-to-cart"]hover
         a[href*="add_to_cart"]:hover {
             background: linear-gradient(135deg, #e64a19, #ff5722);
             transform: translateY(-2px) scale(1.05);
@@ -113,12 +109,22 @@
 
 <header>
     <h1><a href="{% url 'home' %}">CarveCloud</a></h1>
+
     <nav>
         <a href="{% url 'home' %}">Home</a>
         <a href="{% url 'restaurant_list' %}">Restaurants</a>
         <a href="{% url 'view_cart' %}">Cart</a>
         <a href="{% url 'favorites' %}">Favorites</a>
         <a href="{% url 'my_orders' %}">My Orders</a>
+
+        {% if user.is_authenticated %}
+            <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+        {% endif %}
     </nav>
 </header>
 

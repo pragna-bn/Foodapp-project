@@ -1,8 +1,7 @@
 # Django Food Ordering App
 
 **Author:** Pragna BN  
-**Email:** your-pragnabn@gmail.com  
-**GitHub:** [https://github.com/pragna-bn](https://github.com/pragna-bn)
+**Email:** pragnabn@gmail.com  
 
 A **web-based food ordering application** built with Django, allowing users to browse restaurants, select food items, add to cart, and place orders online. This project provides a full-stack experience with user-friendly interfaces and dynamic features.
 
@@ -28,7 +27,9 @@ A **web-based food ordering application** built with Django, allowing users to b
 
 ## Installation and Setup
 
-1. **Clone the repository**
-```bash
-git clone https://github.com/pragna-bn/Foodapp-project.git
-cd Foodapp-project
+## Setup Instructions
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/pragna-bn/Foodapp-project.git
+   cd Foodapp-project
