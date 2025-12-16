@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Now</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            max-width: 480px;
+            background: #fff;
+            padding: 25px;
+            margin: auto;
+            margin-top: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 0px 12px rgba(0,0,0,0.1);
+        }
+        h2 {
+            margin-top: 0;
+            text-align: center;
+        }
+        .food-box {
+            background: #fafafa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+        }
+        .btn {
+            background: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 17px;
+            width: 100%;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background: #218838;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+        textarea {
+            height: 90px;
+            resize: none;
+        }
+        .back-link {
+            display: block;
+            margin-top: 18px;
+            text-align: center;
+            color: #555;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <h2>Order Now</h2>
+
+    <!-- Food details box -->
+    <div class="food-box">
+        <h3>{{ food.name }}</h3>
+        <p><strong>Price:</strong> ₹{{ food.price }}</p>
+        <p>{{ food.description }}</p>
+    </div>
+
+    <!-- Form -->
+    <form method="POST">
+        {% csrf_token %}
+
+        <label for="customer_name">Your Name</label>
+        <input type="text" id="customer_name" name="customer_name" required>
+
+        <label for="customer_phone">Phone Number</label>
+        <input type="text" id="customer_phone" name="customer_phone" required>
+
+        <label for="customer_address">Delivery Address</label>
+        <textarea id="customer_address" name="customer_address" required></textarea>
+
+        <button class="btn" type="submit">Confirm Order</button>
+    </form>
+
+    <a class="back-link" href="{% url 'restaurant_detail' food.restaurant.id %}">
+        ⬅ Back to Restaurant
+    </a>
+</div>
+
+</body>
+</html>

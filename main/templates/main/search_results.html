@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<div style="max-width:1000px; margin:40px auto; padding:20px;">
+
+    <h1 class="page-title">Search Results</h1>
+
+    {% if results %}
+        <p style="margin-bottom:20px;">Showing results for: <strong>"{{ query }}"</strong></p>
+
+        <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap:20px;">
+            {% for item in results %}
+                <div style="background:white; padding:20px; border-radius:16px; box-shadow:0 4px 10px rgba(0,0,0,0.1); text-align:center;">
+                    {% if item.image %}
+                        <img src="{{ item.image.url }}" alt="{{ item.name }}" style="width:100%; height:160px; object-fit:cover; border-radius:12px;">
+                    {% else %}
+                        <div style="width:100%; height:160px; background:#3498db; border-radius:12px; display:flex; align-items:center; justify-content:center; color:white; font-size:1.5em; font-weight:bold;">
+                            {{ item.name|first }}
+                        </div>
+                    {% endif %}
+                    <h3 style="margin-top:12px;">{{ item.name }}</h3>
+                    <p style="color:#2c3e50;">{{ item.description|default:"Delicious food" }}</p>
+                    <p style="font-weight:bold; color:#27ae60;">₹{{ item.price }}</p>
+                    <a href="{% url 'restaurant_detail' item.restaurant.id %}" 
+                       style="display:inline-block; margin-top:10px; padding:10px 20px; background:#e74c3c; color:white; border-radius:50px; text-decoration:none; font-weight:bold;">
+                       View Restaurant
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p style="text-align:center; color:#555; margin-top:40px;">
+            No food items found matching "<strong>{{ query }}</strong>".
+        </p>
+        <div style="text-align:center; margin-top:20px;">
+            <a href="{% url 'restaurant_list' %}" style="padding:12px 25px; background:#27ae60; color:white; border-radius:5px; text-decoration:none;">
+                Browse Restaurants
+            </a>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}

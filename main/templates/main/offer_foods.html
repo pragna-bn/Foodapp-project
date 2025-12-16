@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Foods in Offer - CarveCloud{% endblock %}
+
+{% block content %}
+<h1>{{ offer.title }}</h1>
+<p>{{ offer.description }}</p>
+
+<div class="latest-foods">
+    <div class="food-grid">
+        {% for food in foods %}
+        <div class="food-card">
+            {% if food.image %}
+            <img src="{{ food.image.url }}" alt="{{ food.name }}">
+            {% endif %}
+            <h3>{{ food.name }}</h3>
+            <p>₹{{ food.price }}</p>
+            <a href="{% url 'add_to_cart' food.id %}" class="add-to-cart-btn">Add to Cart</a>
+        </div>
+        {% empty %}
+        <p>No foods in this offer.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

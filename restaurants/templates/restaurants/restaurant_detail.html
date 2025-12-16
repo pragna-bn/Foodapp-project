@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load favorites_tags %}
+
+{% block title %}{{ restaurant.name }} - Menu{% endblock %}
+
+{% block content %}
+<div style="max-width: 1000px; margin: 40px auto; padding: 20px;">
+
+    <!-- Restaurant Header -->
+    <div style="display:flex; align-items:center; gap:20px; margin-bottom:40px;">
+        {% if restaurant.image %}
+            <img src="{{ restaurant.image.url }}" alt="{{ restaurant.name }}" style="width:180px; height:180px; object-fit:cover; border-radius:16px;">
+        {% else %}
+            <div style="width:180px; height:180px; background:#e74c3c; border-radius:16px; display:flex; align-items:center; justify-content:center; color:white; font-size:2em; font-weight:bold;">
+                {{ restaurant.name|first }}
+            </div>
+        {% endif %}
+        <div>
+            <h1 style="margin:0; font-size:2rem;">{{ restaurant.name }}</h1>
+            <p style="color:#7f8c8d; margin-top:5px;">{{ restaurant.location|default:"Delicious Food" }}</p>
+        </div>
+    </div>
+
+    <!-- Food Items List -->
+    <h2 style="margin-bottom:20px;">Menu</h2>
+    <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap:20px;">
+        {% for food in foods %}
+            <div style="background:white; padding:20px; border-radius:16px; box-shadow:0 4px 15px rgba(0,0,0,0.1); display:flex; flex-direction:column; justify-content:space-between;">
+
+                <!-- Food Image -->
+                {% if food.image %}
+                    <img src="{{ food.image.url }}" alt="{{ food.name }}" style="width:100%; height:160px; object-fit:cover; border-radius:12px;">
+                {% else %}
+                    <div style="width:100%; height:160px; background:#3498db; border-radius:12px; display:flex; align-items:center; justify-content:center; color:white; font-size:1.5em; font-weight:bold;">
+                        {{ food.name|first }}
+                    </div>
+                {% endif %}
+
+                <!-- Food Name & Description -->
+                <h3 style="margin:12px 0 5px 0; font-size:1.2rem; color:#2c3e50;">{{ food.name }}</h3>
+                <p style="color:#7f8c8d; flex-grow:1;">{{ food.description|default:"Delicious food" }}</p>
+                <p style="font-weight:bold; color:#27ae60; margin-bottom:12px;">₹{{ food.price }}</p>
+
+                <!-- Action Buttons -->
+                <div style="display:flex; gap:10px; flex-wrap: wrap;">
+                    <a href="{% url 'add_to_cart' food.id %}"
+                       style="flex:1; text-align:center; background:#e74c3c; color:white; padding:10px 0; border-radius:50px; text-decoration:none; font-weight:bold;">
+                       Add to Cart
+                    </a>
+
+                    <a href="{% url 'order-now' food.id %}"
+                       style="flex:1; text-align:center; background:#27ae60; color:white; padding:10px 0; border-radius:50px; text-decoration:none; font-weight:bold;">
+                       Order Now
+                    </a>
+
+                    {% if user.is_authenticated %}
+                        {% if food|user_has_favorite:user %}
+                            <a href="{% url 'remove_favorite' food.id %}"
+                               style="flex:1; text-align:center; background:#95a5a6; color:white; padding:10px 0; border-radius:50px; text-decoration:none; font-weight:bold;">
+                               ❌ Remove
+                            </a>
+                        {% else %}
+                            <a href="{% url 'add_to_favorites' food.id %}"
+                               style="flex:1; text-align:center; background:#f1c40f; color:white; padding:10px 0; border-radius:50px; text-decoration:none; font-weight:bold;">
+                               ❤️ Add to Favorites
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        {% empty %}
+            <p style="grid-column:1/-1; text-align:center; color:#999; padding:30px; background:white; border-radius:16px;">
+                No food items available for this restaurant.
+            </p>
+        {% endfor %}
+    </div>
+
+    <!-- Back to Restaurants -->
+    <div style="margin-top:40px; text-align:center;">
+        <a href="{% url 'restaurant_list' %}"
+           style="background:#3498db; color:white; padding:12px 30px; border-radius:50px; text-decoration:none; font-weight:bold;">
+           Back to Restaurants
+        </a>
+    </div>
+
+</div>
+{% endblock %}

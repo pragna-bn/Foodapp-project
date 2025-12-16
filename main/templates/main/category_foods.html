@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% load favorites_tags %}
+
+{% block title %}{{ category.name }} - CarveCloud{% endblock %}
+
+{% block content %}
+<h1 class="page-title">{{ category.name }}</h1>
+
+<style>
+/* ===== Food Grid Layout ===== */
+.food-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.food-card {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.food-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+}
+
+.food-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+.food-card h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.2rem;
+    color: #2c3e50;
+}
+
+.food-card p {
+    font-weight: bold;
+    color: #27ae60;
+    margin: 0 0 12px 0;
+}
+
+.add-to-cart-btn,
+.add-to-favorite-btn,
+.remove-favorite-btn {
+    display: block;
+    text-align: center;
+    padding: 10px 0;
+    border-radius: 50px;
+    font-weight: bold;
+    text-decoration: none !important;
+    color: white !important;
+    margin-bottom: 8px;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.add-to-cart-btn { background: #e74c3c; }
+.add-to-cart-btn:hover { background: #c0392b; transform: scale(1.05); }
+
+.add-to-favorite-btn { background: #f1c40f; }
+.add-to-favorite-btn:hover { background: #d4ac0d; transform: scale(1.05); }
+
+.remove-favorite-btn { background: #95a5a6; }
+.remove-favorite-btn:hover { background: #7f8c8d; transform: scale(1.05); }
+
+/* Back to Home Button */
+.back-home {
+    display: inline-block;
+    text-align: center;
+    margin: 40px auto 20px auto;
+    background: #3498db;
+    color: white !important;
+    text-decoration: none !important;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: bold;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.back-home:hover {
+    transform: scale(1.05);
+    background: #2980b9;
+}
+
+.latest-foods {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+</style>
+
+<div class="latest-foods">
+    {% if foods %}
+    <div class="food-grid">
+        {% for food in foods %}
+        <div class="food-card">
+            {% if food.image %}
+                <img src="{{ food.image.url }}" alt="{{ food.name }}">
+            {% endif %}
+
+            <h3>{{ food.name }}</h3>
+            <p>₹{{ food.price }}</p>
+
+            <!-- Add to Cart Button -->
+            <a href="{% url 'add_to_cart' food.id %}" class="add-to-cart-btn">
+                Add to Cart
+            </a>
+
+            <!-- Add/Remove Favorites -->
+            {% if user.is_authenticated %}
+                {% if food|user_has_favorite:user %}
+                    <a href="{% url 'remove_favorite' food.id %}" class="remove-favorite-btn">
+                        ❌ Remove from Favorites
+                    </a>
+                {% else %}
+                    <a href="{% url 'add_to_favorites' food.id %}" class="add-to-favorite-btn">
+                        ❤️ Add to Favorites
+                    </a>
+                {% endif %}
+            {% endif %}
+
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p style="text-align:center; margin-top:40px;">No foods available in this category.</p>
+    {% endif %}
+</div>
+
+<!-- Back to Home Button -->
+<div style="text-align:center;">
+    <a href="{% url 'home' %}" class="back-home">Back to Home</a>
+</div>
+
+{% endblock %}

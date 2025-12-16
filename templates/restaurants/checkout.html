@@ -1,0 +1,143 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url("{% static 'images/food-bg.jpg' %}") no-repeat center center fixed;
+            background-size: cover;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 750px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px 30px;
+            margin: 40px auto;
+            border-radius: 12px;
+            box-shadow: 0px 8px 25px rgba(0,0,0,0.3);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #e74c3c;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            margin: 10px 5px 0 0;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+        }
+        .btn-place {
+            background: #27ae60;
+            color: white;
+        }
+        .btn-place:hover {
+            background: #1e8449;
+        }
+        .btn-back {
+            background: #3498db;
+            color: white;
+        }
+        .btn-back:hover {
+            background: #21618c;
+        }
+        @media(max-width: 600px) {
+            table, th, td {
+                font-size: 14px;
+            }
+            .btn {
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Checkout</h1>
+
+    {% if items %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Food Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td>{{ item.food.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>₹{{ item.price }}</td>
+                        <td>₹{{ item.subtotal }}</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="3"><strong>Total</strong></td>
+                    <td><strong>₹{{ total }}</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Enter Delivery Details</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label><strong>Name:</strong></label>
+            <input type="text" name="customer_name" value="{{ order.customer_name }}" required>
+
+            <label><strong>Phone Number:</strong></label>
+            <input type="text" name="customer_phone" value="{{ order.customer_phone }}" required>
+
+            <label><strong>Delivery Address:</strong></label>
+            <textarea name="customer_address" rows="3" required>{{ order.customer_address }}</textarea>
+
+            <div style="display:flex; justify-content: space-between; flex-wrap: wrap;">
+                <a href="{% url 'view_cart' %}" class="btn btn-back">⬅ Back</a>
+                <button type="submit" class="btn btn-place">Place Order</button>
+            </div>
+        </form>
+
+    {% else %}
+        <p style="text-align:center; font-size:16px;">Your cart is empty.</p>
+        <a href="{% url 'restaurant_list' %}" class="btn btn-back">Go to Restaurants</a>
+    {% endif %}
+</div>
+
+</body>
+</html>

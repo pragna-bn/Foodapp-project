@@ -1,0 +1,149 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CarveCloud{% endblock %}</title>
+
+    <!-- Link CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+        /* Full-page background image */
+        body {
+            background-image: url("{% static 'images/hero.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            color: #fff;
+        }
+
+        /* Header / Navbar */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(0,0,0,0.5);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+
+        header h1 a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        nav a {
+            margin-left: 25px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #ff5722;
+        }
+
+        main {
+            padding: 20px 0;
+        }
+
+        footer {
+            background-color: rgba(0,0,0,0.7);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 40px;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(255,255,255,0.3);
+            border-radius: 10px;
+        }
+
+        /* ==================================================
+           FORCE STYLE FOR ALL ADD TO CART LINKS (FINAL FIX)
+         
+           ================================================== */
+        .add-to-cart-btn,
+        a.add-to-cart,
+        a[href*=".add-to-cart-btn"],
+        a[href*="add_to_cart"] {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 26px;
+            background: linear-gradient(135deg, #ff5722, #ff784e);
+            color: #fff !important;
+            font-weight: bold;
+            font-size: 0.95rem;
+            text-decoration: none !important;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .add-to-cart-btn:hover,
+        a.add-to-cart:hover,
+        a[href*="add-to-cart"]hover
+        a[href*="add_to_cart"]:hover {
+            background: linear-gradient(135deg, #e64a19, #ff5722);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.35);
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1><a href="{% url 'home' %}">CarveCloud</a></h1>
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'restaurant_list' %}">Restaurants</a>
+        <a href="{% url 'view_cart' %}">Cart</a>
+        <a href="{% url 'favorites' %}">Favorites</a>
+        <a href="{% url 'my_orders' %}">My Orders</a>
+    </nav>
+</header>
+
+<div style="text-align:center; margin-top:20px;">
+    <form action="{% url 'search_food' %}" method="GET"
+          style="display:inline-flex; width:60%; max-width:600px;">
+        <input type="text" name="q" placeholder="Search food items..."
+               style="flex:1; padding:12px; border:1px solid #ccc;
+               border-radius:8px 0 0 8px;">
+        <button type="submit"
+                style="padding:12px 20px; background:#ff5722;
+                color:white; border:none; border-radius:0 8px 8px 0;
+                font-weight:bold;">
+            Search
+        </button>
+    </form>
+</div>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<footer>
+    &copy; 2025 CarveCloud. All rights reserved.
+</footer>
+
+</body>
+</html>

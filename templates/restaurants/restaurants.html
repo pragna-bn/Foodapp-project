@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Restaurants - CarveCloud{% endblock %}
+
+{% block content %}
+
+<style>
+/* ===== Restaurants Page Layout ===== */
+.restaurant-grid {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+}
+
+/* ===== Restaurant Card ===== */
+.restaurant-card {
+    background: rgba(0, 0, 0, 0.45);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.restaurant-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 35px rgba(0,0,0,0.75);
+}
+
+/* ===== Restaurant Image ===== */
+.restaurant-card img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+}
+
+/* ===== Restaurant Name ===== */
+.restaurant-card h3 {
+    margin: 14px 0 6px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+/* ===== Location ===== */
+.restaurant-card p {
+    margin-bottom: 18px;
+    font-size: 1rem;
+    color: #ffcc80;
+}
+
+/* ===== View Menu Button ===== */
+.view-menu-btn {
+    display: inline-block;
+    margin-bottom: 22px;
+    padding: 11px 30px;
+    background: linear-gradient(135deg, #ff5722, #ff8a50);
+    color: #ffffff !important;
+    font-weight: bold;
+    font-size: 0.95rem;
+    text-decoration: none !important;
+    border-radius: 30px;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.view-menu-btn:hover {
+    background: linear-gradient(135deg, #e64a19, #ff5722);
+    transform: scale(1.06);
+}
+</style>
+
+<h1 class="page-title">Restaurants Near You</h1>
+
+<div class="restaurant-grid">
+    {% for restaurant in restaurants %}
+    <div class="restaurant-card">
+
+        {% if restaurant.image %}
+            <img src="{{ restaurant.image.url }}" alt="{{ restaurant.name }}">
+        {% endif %}
+
+        <h3>{{ restaurant.name }}</h3>
+        <p>{{ restaurant.location }}</p>
+
+        <a href="{% url 'restaurant_detail' restaurant.id %}" class="view-menu-btn">
+            View Menu
+        </a>
+
+    </div>
+    {% empty %}
+        <p style="color:white; text-align:center;">No restaurants available.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

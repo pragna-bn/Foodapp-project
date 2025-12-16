@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+
+    <h2 class="mb-3">Order Details</h2>
+
+    <div class="card shadow">
+        <div class="card-body">
+            
+            <!-- Show sequential order number -->
+            <h4>Order #{{ order.order_number }}</h4>
+            <p><strong>Status:</strong> {{ order.status }}</p>
+            <p><strong>Order Date:</strong> {{ order.created_at|date:"d M Y, h:i A" }}</p>
+
+            <hr>
+
+            <h5>Customer Information</h5>
+            <p><strong>Name:</strong> {{ order.customer_name|default:"-" }}</p>
+            <p><strong>Phone:</strong> {{ order.customer_phone|default:"-" }}</p>
+            <p><strong>Address:</strong> {{ order.customer_address|default:"-" }}</p>
+
+            <hr>
+
+            <h5>Items</h5>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Food Item</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td>{{ item.food_name }}</td>
+                        <td>₹{{ item.price }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>₹{{ item.subtotal }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h4 class="text-end">Total: ₹{{ order.total_price }}</h4>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}
