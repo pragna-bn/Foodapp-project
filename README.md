@@ -1,11 +1,14 @@
 # Django Food Ordering App
 
+**Author:** Pragna BN  
+**Email:** your-pragnabn@gmail.com  
+**GitHub:** [https://github.com/pragna-bn](https://github.com/pragna-bn)
+
 A **web-based food ordering application** built with Django, allowing users to browse restaurants, select food items, add to cart, and place orders online. This project provides a full-stack experience with user-friendly interfaces and dynamic features.
 
 ---
 
 ## Features
-
 - Browse restaurants and their menus
 - Add food items to cart
 - Checkout with customer details
@@ -16,7 +19,6 @@ A **web-based food ordering application** built with Django, allowing users to b
 ---
 
 ## Technologies Used
-
 - **Backend:** Python, Django  
 - **Frontend:** HTML, CSS, JavaScript  
 - **Database:** SQLite (default Django database)  
